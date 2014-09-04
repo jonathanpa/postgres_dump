@@ -5,7 +5,7 @@ require 'time'
 today_iso = Time.now.iso8601
 
 db = ARGV[0]
-file_sql_name = "#{today_iso}_#{db}.sql"
+file_sql_name = "#{today_iso}_#{db}"
 export_name = "/backup/#{file_sql_name}"
 
 dump_command = "pg_dump -h \"$POSTGRES_PORT_5432_TCP_ADDR\" -p \"$POSTGRES_PORT_5432_TCP_PORT\" -U postgres --format=directory --file=#{export_name} #{db}"
