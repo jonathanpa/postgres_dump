@@ -8,17 +8,10 @@ db = ARGV[0]
 file_sql_name = "#{today_iso}_#{db}.sql"
 export_name = "/backup/#{file_sql_name}"
 
-dump_command = "pg_dump -h \"$POSTGRES_PORT_5432_TCP_ADDR\" -p \"$POSTGRES_PORT_5432_TCP_PORT\" -U postgres --clean --create #{db} > #{export_name}"
+dump_command = "pg_dump -h \"$POSTGRES_PORT_5432_TCP_ADDR\" -p \"$POSTGRES_PORT_5432_TCP_PORT\" -U postgres --format=directory --file=#{export_name} #{db}"
 
 puts "Calling #{dump_command} ..."
 system(dump_command)
-
-tar_command = "tar -Jcvf #{export_name}.tar.xz #{export_name}"
-puts "Calling #{tar_command} ..."
-system(tar_command)
-
-puts "Deleting #{export_name} ..."
-system("rm -v #{export_name}")
 
 puts "Backup may be ready"
 system("ls -lh /backup/")
